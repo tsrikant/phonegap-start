@@ -66,7 +66,7 @@
 	<div data-role="page" id="loginpage" data-dom-cache=true>
          <div data-role="header" data-position="fixed" data-theme="b">
             <h1>Sign in to Doszier</h1>
-			<img src="images/logo.png" class="ui-btn-left" />
+			<img src="img/logo.png" class="ui-btn-left" />
         </div> <!-- /header -->
          <div data-role="content">
          	<p>&nbsp;</p>
@@ -84,7 +84,7 @@
  
         <div data-role="header" data-position="fixed" data-theme="b">
             <h1>Doszier</h1>
-			<img src="images/logo.png" class="ui-btn-left" />
+			<img src="img/logo.png" class="ui-btn-left" />
 			<img src="icons/06-magnify.png" class="ui-btn-right" />
         </div> <!-- /header -->
  
@@ -109,7 +109,7 @@
  
         <div data-role="header" data-position="fixed" data-theme="b">
             <h1>Doszier</h1>
-			<img src="images/logo.png" class="ui-btn-left" />
+			<img src="img/logo.png" class="ui-btn-left" />
 			<img src="icons/06-magnify.png" class="ui-btn-right" />
         </div> <!-- /header -->
  
@@ -117,7 +117,7 @@
             <ul data-role=listview>
 				<li>
 					<a href=#doszierpage>
-					<img src=images/whiteshareddossier.png />
+					<img src=img/whiteshareddossier.png />
 					<span class=ui-li-count>12</span>
 					<h1> Appraisals</h1>
 					<p> 2012</p>
@@ -125,7 +125,7 @@
 				</li>
 				<li>
 					<a href=#doszierpage>
-						<img src="images/greenshareddossier.png" />
+						<img src="img/greenshareddossier.png" />
 						<span class=ui-li-count>18</span>
 						<h3>Purchase Orders</h3>
 						<p> 2012-13</p>
@@ -133,7 +133,7 @@
 				</li>
 				<li>
 					<a href=#doszierpage>
-						<img src="images/brownshareddossier.png" />
+						<img src="img/brownshareddossier.png" />
 						<span class=ui-li-count>34</span>
 						<h3>Receipts</h3>
 						<p>2012-13</p>
@@ -164,19 +164,19 @@
  
         <div data-role="content">
 		<!--	<div class=ui-grid-b>
-				<div class=ui-block-a> <img src="images/documentthumbnail.png"/><p>ACME Invoice</p></div>
-				<div class=ui-block-b> <img src="images/documentthumbnail.png"/><p>ACME PO</p></div>
-				<div class=ui-block-c> <img src="images/documentthumbnail.png"/><p>Receipt Jan 2013</p></div>
+				<div class=ui-block-a> <img src="img/documentthumbnail.png"/><p>ACME Invoice</p></div>
+				<div class=ui-block-b> <img src="img/documentthumbnail.png"/><p>ACME PO</p></div>
+				<div class=ui-block-c> <img src="img/documentthumbnail.png"/><p>Receipt Jan 2013</p></div>
 			</div>
 			<div class=ui-grid-b>
-				<div class=ui-block-a> <img src="images/documentthumbnail.png"/><p>XYZ Invoice</p></div>
-				<div class=ui-block-b> <img src="images/documentthumbnail.png"/><p>XYZ PO</p></div>
-				<div class=ui-block-c> <img src="images/documentthumbnail.png"/><p>Receipt Feb 2013</p></div>
+				<div class=ui-block-a> <img src="img/documentthumbnail.png"/><p>XYZ Invoice</p></div>
+				<div class=ui-block-b> <img src="img/documentthumbnail.png"/><p>XYZ PO</p></div>
+				<div class=ui-block-c> <img src="img/documentthumbnail.png"/><p>Receipt Feb 2013</p></div>
 			</div>
 			<div class=ui-grid-b>
-				<div class=ui-block-a> <img src="images/documentthumbnail.png"/><p>Receipt Mar 2013</p></div>
-				<div class=ui-block-b> <img src="images/documentthumbnail.png"/><p>PQR Invoice</p></div>
-				<div class=ui-block-c> <img src="images/documentthumbnail.png"/><p>PQR PO</p></div>
+				<div class=ui-block-a> <img src="img/documentthumbnail.png"/><p>Receipt Mar 2013</p></div>
+				<div class=ui-block-b> <img src="img/documentthumbnail.png"/><p>PQR Invoice</p></div>
+				<div class=ui-block-c> <img src="img/documentthumbnail.png"/><p>PQR PO</p></div>
 			</div>-->
 		</div> <!-- /content -->
 		
@@ -382,7 +382,7 @@ function handleResult(response)
 		var liHTML = "";
 		//liHTML += '<a href=#doszierpage?b=' + dossierId + '>';
 		liHTML += '<a href=javascript:opendossier(' + dossierId + ')>';
-		liHTML += '<img src="images/' + response[i].dossierColorImage +'"/>';
+		liHTML += '<img src="img/' + response[i].dossierColorImage +'"/>';
 		liHTML += '<span class=ui-li-count>' + response[i].docCount+ '</span>';
 		liHTML += '<h3>' +  response[i].binderName +'</h3>';
 		liHTML += '<p>' +  response[i].dateCreated + '</p></a>';
