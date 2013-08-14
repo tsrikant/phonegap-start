@@ -1,42 +1,587 @@
-<!DOCTYPE html>
-<!--
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-     KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
--->
+<!doctype html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="format-detection" content="telephone=no" />
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
-        <link rel="stylesheet" type="text/css" href="css/index.css" />
-        <title>Hello World</title>
-    </head>
-    <body>
-        <div class="app">
-            <h1>PhoneGap</h1>
-            <div id="deviceready" class="blink">
-                <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready</p>
-            </div>
-        </div>
-        <script type="text/javascript" src="phonegap.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
-        <script type="text/javascript">
-            app.initialize();
-        </script>
-    </body>
+<head>
+    <title>Doszier</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/jquery.mobile-1.3.1.css">
+    <link rel="stylesheet" href="css/dossier.css">
+    <script src="js/jquery-1.9.1.js"></script>
+    <script src="js/jquery.mobile-1.3.1.js"></script>
+    <script src="js/global.js"></script>
+    <script src="js/cordova.js"></script>
+    <script src="js/purl.js"></script>
+	<style type=text/css>
+    div[data-role=navbar] .ui-btn .ui-btn-inner { 
+      padding-top: 30px; 
+    }
+    div[data-role=navbar] .ui-btn .ui-icon { 
+      width: 24px; 
+      height: 24px; 
+      margin-left: -20px; 
+	  border-width: 0px;
+    }
+    #mydossiers .ui-icon { 
+      background:  url(icons/96-book.png) 50% 50% no-repeat; 
+    }
+    #shareddossiers .ui-icon { 
+      background:  url(icons/44-shoebox.png) 50% 50% no-repeat; 
+    }
+    #notifications .ui-icon { 
+      background:  url(icons/08-chat.png) 50% 50% no-repeat;  
+    }
+	#settings .ui-icon { 
+      background:  url(icons/19-gear.png) 50% 50% no-repeat;  
+    }
+	#adddossier .ui-icon { 
+      background:  url(icons/10-medical.png) 50% 50% no-repeat;  
+    }
+	#addtodossier .ui-icon { 
+      background:  url(icons/10-medical.png) 50% 50% no-repeat;  
+    }
+	#comments .ui-icon { 
+      background:  url(icons/09-chat-2.png) 50% 50% no-repeat;  
+    }
+	#tags .ui-icon { 
+      background:  url(icons/15-tags.png) 50% 50% no-repeat;  
+    }
+	#documents .ui-icon { 
+      background:  url(icons/42-photos.png) 50% 50% no-repeat;  
+    }
+	#information .ui-icon { 
+      background:  url(icons/104-index-cards.png) 50% 50% no-repeat; 
+    }
+	#history .ui-icon { 
+      background:  url(icons/166-newspaper.png) 50% 50% no-repeat; 
+    }
+	#label .ui-icon { 
+      background:  url(icons/58-bookmark.png) 50% 50% no-repeat; 
+    }
+	#share .ui-icon { 
+      background:  url(icons/112-group.png) 50% 50% no-repeat; 
+    }
+
+  </style>
+</head>
+<body>
+	<div data-role="page" id="loginpage" data-dom-cache=true>
+         <div data-role="header" data-position="fixed" data-theme="b">
+            <h1>Sign in to Doszier</h1>
+			<img src="images/logo.png" class="ui-btn-left" />
+        </div> <!-- /header -->
+         <div data-role="content">
+         	<p>&nbsp;</p>
+         	<span>User ID</span>
+    		<input type=text id="userid"/>
+    		<span>Password</span>
+    		<input type=password id="password"/>
+    		<p>&nbsp;</p>
+    		<a href=# data-role=button id="loginbutton" data-theme=b> Sign In </a>
+         </div> <!-- /content -->
+         	
+    </div> <!-- /page -->
+    
+    <div data-role="page" id="mydossierspage" data-dom-cache=true>
+ 
+        <div data-role="header" data-position="fixed" data-theme="b">
+            <h1>Doszier</h1>
+			<img src="images/logo.png" class="ui-btn-left" />
+			<img src="icons/06-magnify.png" class="ui-btn-right" />
+        </div> <!-- /header -->
+ 
+        <div data-role="content">
+            <ul id="myDossiersList" data-role=listview>				
+			</ul>
+		</div> <!-- /content -->
+		<div data-role=footer data-position="fixed">
+			<div data-role=navbar>
+				<ul>
+					<li><a href=# id=mydossiers data-icon=custom data-theme="e"></a></li>
+					<li><a href=#shareddossierspage id=shareddossiers data-icon=custom data-theme="d" data-transition=flip></a></li>
+					<li><a href=# id=notifications data-icon=custom data-theme="d" data-transition=flip></a></li>
+					<li><a href=# id=adddossier data-icon=custom data-theme="d" data-transition=flip></a></li>
+					<li><a href=# id=settings data-icon=custom data-theme="d" data-transition=flip></a></li>
+				</ul>
+			</div>
+		</div> <!-- /Footer -->
+    </div> <!-- /page -->
+	
+	<div data-role="page" id="shareddossierspage" data-dom-cache=true>
+ 
+        <div data-role="header" data-position="fixed" data-theme="b">
+            <h1>Doszier</h1>
+			<img src="images/logo.png" class="ui-btn-left" />
+			<img src="icons/06-magnify.png" class="ui-btn-right" />
+        </div> <!-- /header -->
+ 
+        <div data-role="content">
+            <ul data-role=listview>
+				<li>
+					<a href=#doszierpage>
+					<img src=images/whiteshareddossier.png />
+					<span class=ui-li-count>12</span>
+					<h1> Appraisals</h1>
+					<p> 2012</p>
+					</a>
+				</li>
+				<li>
+					<a href=#doszierpage>
+						<img src="images/greenshareddossier.png" />
+						<span class=ui-li-count>18</span>
+						<h3>Purchase Orders</h3>
+						<p> 2012-13</p>
+					</a>
+				</li>
+				<li>
+					<a href=#doszierpage>
+						<img src="images/brownshareddossier.png" />
+						<span class=ui-li-count>34</span>
+						<h3>Receipts</h3>
+						<p>2012-13</p>
+					</a>
+				</li>
+			</ul>
+		</div> <!-- /content -->
+		
+		<div data-role=footer data-position="fixed">
+			<div data-role=navbar>
+				<ul>
+					<li><a href=#mydossierspage id=mydossiers data-icon=custom data-theme="d" data-transition=flip></a></li>
+					<li><a href=# id=shareddossiers data-icon=custom data-theme="e"></a></li>
+					<li><a href=# id=notifications data-icon=custom data-theme="d" data-transition=flip></a></li>
+					<li><a href=# id=adddossier data-icon=custom data-theme="d" data-transition=flip></a></li>
+					<li><a href=# id=settings data-icon=custom data-theme="d" data-transition=flip></a></li>
+				</ul>
+			</div>
+		</div> <!-- /Footer -->
+    </div> <!-- /page -->
+	
+	<div data-role="page" id="doszierpage" data-dom-cache=true data-add-back-btn=true>
+ 
+        <div data-role="header" data-position="fixed" data-theme="b">
+            <h1>Doszier</h1>
+			<img src="icons/06-magnify.png" class="ui-btn-right" />
+        </div> <!-- /header -->
+ 
+        <div data-role="content">
+		<!--	<div class=ui-grid-b>
+				<div class=ui-block-a> <img src="images/documentthumbnail.png"/><p>ACME Invoice</p></div>
+				<div class=ui-block-b> <img src="images/documentthumbnail.png"/><p>ACME PO</p></div>
+				<div class=ui-block-c> <img src="images/documentthumbnail.png"/><p>Receipt Jan 2013</p></div>
+			</div>
+			<div class=ui-grid-b>
+				<div class=ui-block-a> <img src="images/documentthumbnail.png"/><p>XYZ Invoice</p></div>
+				<div class=ui-block-b> <img src="images/documentthumbnail.png"/><p>XYZ PO</p></div>
+				<div class=ui-block-c> <img src="images/documentthumbnail.png"/><p>Receipt Feb 2013</p></div>
+			</div>
+			<div class=ui-grid-b>
+				<div class=ui-block-a> <img src="images/documentthumbnail.png"/><p>Receipt Mar 2013</p></div>
+				<div class=ui-block-b> <img src="images/documentthumbnail.png"/><p>PQR Invoice</p></div>
+				<div class=ui-block-c> <img src="images/documentthumbnail.png"/><p>PQR PO</p></div>
+			</div>-->
+		</div> <!-- /content -->
+		
+		<div data-role=footer data-position="fixed">
+			<div data-role=navbar>
+				<ul>
+					<li><a href=# id=documents data-icon=custom data-theme="e"></a></li>
+					<li><a href=# id=information data-icon=custom data-theme="c" data-transition=flip></a></li>
+					<li><a href=#notespage id=comments data-icon=custom data-theme="c" data-transition=flip></a></li>
+					<li><a href=#tagspage id=tags data-icon=custom data-theme="c" data-transition=flip></a></li>
+				</ul>
+			</div>
+			<div data-role=navbar>
+				<ul>
+					<li><a href=# id=history data-icon=custom data-theme="c" data-transition=flip></a></li>
+					<li><a href=# id=label data-icon=custom data-theme="c" data-transition=flip></a></li>
+					<li><a href=# id=share data-icon=custom data-theme="c" data-transition=flip></a></li>
+					<li><a href=#cameraPage id=addtodossier data-icon=custom data-theme="c"></a></li>
+				</ul>
+			</div>
+		</div>  <!-- /content -->
+    </div> <!-- /page -->
+    
+    
+    <div data-role="page" id="tagspage" data-dom-cache=true data-add-back-btn=true>
+ 
+        <div data-role="header" data-position="fixed" data-theme="b">
+            <h1>Tags</h1>
+			<img src="icons/06-magnify.png" class="ui-btn-right" />
+        </div> <!-- /header -->
+ 
+        <div data-role="content">
+			<ul id=tagsList data-role=listview>
+		</div> <!-- /content -->
+		
+		<div data-role=footer data-position="fixed">
+			<div data-role=navbar>
+				<ul>
+					<li><a href=# id=documents data-icon=custom data-theme="e"></a></li>
+					<li><a href=# id=information data-icon=custom data-theme="c" data-transition=flip></a></li>
+					<li><a href=#notespage id=comments data-icon=custom data-theme="c" data-transition=flip></a></li>
+					<li><a href=# id=tags data-icon=custom data-theme="c" data-transition=flip></a></li>
+				</ul>
+			</div>
+			<div data-role=navbar>
+				<ul>
+					<li><a href=# id=history data-icon=custom data-theme="c" data-transition=flip></a></li>
+					<li><a href=# id=label data-icon=custom data-theme="c" data-transition=flip></a></li>
+					<li><a href=# id=share data-icon=custom data-theme="c" data-transition=flip></a></li>
+					<li><a href=# id=adddossier data-icon=custom data-theme="c" data-transition=flip></a></li>
+				</ul>
+			</div>
+		</div>  <!-- /content -->
+    </div> <!-- /page -->
+	
+	
+   <div data-role="page" id="notespage" data-dom-cache=true data-add-back-btn=true>
+ 
+        <div data-role="header" data-position="fixed" data-theme="b">
+            <h1>Notes</h1>
+			<img src="icons/06-magnify.png" class="ui-btn-right" />
+        </div> <!-- /header -->
+ 
+        <div data-role="content">
+			<ul id=notesList data-role=listview>
+		</div> <!-- /content -->
+		
+		<div data-role=footer data-position="fixed">
+			<div data-role=navbar>
+				<ul>
+					<li><a href=# id=documents data-icon=custom data-theme="e"></a></li>
+					<li><a href=# id=information data-icon=custom data-theme="c" data-transition=flip></a></li>
+					<li><a href=# id=comments data-icon=custom data-theme="c" data-transition=flip></a></li>
+					<li><a href=#tagspage id=tags data-icon=custom data-theme="c" data-transition=flip></a></li>
+				</ul>
+			</div>
+			<div data-role=navbar>
+				<ul>
+					<li><a href=# id=history data-icon=custom data-theme="c" data-transition=flip></a></li>
+					<li><a href=# id=label data-icon=custom data-theme="c" data-transition=flip></a></li>
+					<li><a href=# id=share data-icon=custom data-theme="c" data-transition=flip></a></li>
+					<li><a href=# id=adddossier data-icon=custom data-theme="c" data-transition=flip></a></li>
+				</ul>
+			</div>
+		</div>  <!-- /content -->
+    </div> <!-- /page -->
+
+<!-- Camera Page -->
+    <div data-role="page" id="cameraPage" data-dom-cache=true data-add-back-btn=true>
+ 
+        <div data-role="header" data-position="fixed" data-theme="b">
+            <h1>Add Photo</h1>
+			<img src="icons/06-magnify.png" class="ui-btn-right" />
+        </div> <!-- /header -->
+ 
+        <div data-role="content">
+			 <center>
+        		<img style="width: 60px; height: 60px" id="test_img" src="" />
+        	</center>
+
+	        <button onclick="getPicture()">From Camera</button>
+	
+	        <button onclick="getPicture(PictureSourceType.PHOTO_LIBRARY)">From
+	            Photo Library</button>
+	        <button onclick="uploadPhoto()">Upload Photo</button>
+		</div> <!-- /content -->
+		
+		<div data-role=footer data-position="fixed">
+			<div data-role=navbar>
+				<ul>
+					<li><a href=# id=documents data-icon=custom data-theme="e"></a></li>
+					<li><a href=# id=information data-icon=custom data-theme="c" data-transition=flip></a></li>
+					<li><a href=#notespage id=comments data-icon=custom data-theme="c" data-transition=flip></a></li>
+					<li><a href=# id=tags data-icon=custom data-theme="c" data-transition=flip></a></li>
+				</ul>
+			</div>
+			<div data-role=navbar>
+				<ul>
+					<li><a href=# id=history data-icon=custom data-theme="c" data-transition=flip></a></li>
+					<li><a href=# id=label data-icon=custom data-theme="c" data-transition=flip></a></li>
+					<li><a href=# id=share data-icon=custom data-theme="c" data-transition=flip></a></li>
+					<li><a href=# id=adddossier data-icon=custom data-theme="c" data-transition=flip></a></li>
+				</ul>
+			</div>
+		</div>  <!-- /content -->
+    </div> <!-- /page -->
+	
+</div>	
+<!-- Camera Page end -->
+	
+</body>
+
 </html>
+
+<script>
+
+
+$("#loginbutton").bind ("click", function (event)
+{
+	  var userid = $("#userid").val ();
+	  var password = $("#password").val ();
+	  
+	  var user = {			 
+				 userId: userid,
+				 pwd: password
+			};
+			 var d = $.param(user);
+		
+			var request = $.ajax({
+			 	type : "GET",
+		 		url : "http://192.168.0.103:8080/isp/rest/quikDocs/auth?" + d,
+		 		dataType : "JSON",
+		 		success : function(response) {
+		 	
+		 			handleResponse(response);
+					$.mobile.changePage ($("#mydossierspage"));
+				},
+				error : function(response)
+				{
+					alert('invalid credentials');
+				}
+		 	});
+});
+
+function handleResponse(response)
+{
+	//alert(JSON.stringify(response));
+	window.g_token = response.alfrescoToken;
+	
+	window.g_userId = response.userId;
+
+}
+
+$( document ).on( "pageshow", "#mydossierspage", function( event ) {
+
+		$.ajax({
+			 	type : "GET",
+		 		url : "http://192.168.0.103:8080/isp/rest/quikDocs/dossiers",
+		 		dataType : "JSON",
+		 		beforeSend: function (request)
+            	{
+                	request.setRequestHeader("token", window.g_token);
+                	request.setRequestHeader("userId", window.g_userId);
+            	},
+		 		success : function(response) {
+		 			
+		 			handleResult(response);
+				},
+				error : function(response)
+				{
+					alert('Some error');
+				}
+		 	});
+  
+});
+
+function handleResult(response)
+{
+	for (i=0;i<response.length;i++)
+	{
+		var dossierId = response[i].binderId;
+		
+		var liHTML = "";
+		//liHTML += '<a href=#doszierpage?b=' + dossierId + '>';
+		liHTML += '<a href=javascript:opendossier(' + dossierId + ')>';
+		liHTML += '<img src="images/' + response[i].dossierColorImage +'"/>';
+		liHTML += '<span class=ui-li-count>' + response[i].docCount+ '</span>';
+		liHTML += '<h3>' +  response[i].binderName +'</h3>';
+		liHTML += '<p>' +  response[i].dateCreated + '</p></a>';
+		//alert(liHTML);
+		$("#myDossiersList").append ("<li id=" + dossierId + ">" + liHTML + "</li>");
+		 $("#myDossiersList").listview ("refresh");
+	}
+}
+
+
+function opendossier(b)
+{
+	window.doszierId = b;
+	$.mobile.changePage ($("#doszierpage"));
+}
+
+$( document ).on( "pageshow", "#doszierpage", function( event ) {
+
+
+		var l_doszierId = window.doszierId
+		$("#doszierpage div:jqmData(role=content)").empty();
+		$.ajax({
+			 	type : "GET",
+		 		url : "http://192.168.0.103:8080/isp/rest/quikDocs/getDossier?binderId=" + l_doszierId,
+		 		dataType : "JSON",
+		 		beforeSend: function (request)
+            	{
+            		
+                	request.setRequestHeader("token", window.g_token);
+                	request.setRequestHeader("userId", window.g_userId);
+            	},
+		 		success : function(response) {
+		 			//alert(JSON.stringify(response));
+		 			handleDossier(response);
+				},
+				error : function(response)
+				{
+					alert('Some error');
+				}
+		 	});
+  
+});
+
+	$( document ).on( "pageshow", "#tagspage", function( event ) {
+			$("#tagsList").html('');
+			var data = window.doszierData;
+			var tagCount = data.tags.length;
+			
+			
+			for (i=0;i<tagCount;i++)
+			{
+				var liHTML = "";
+				liHTML += '<a href=#>';
+				liHTML += '<h3>' +  data.tags[i].tagName +'</h3>';
+				liHTML += '</a>';
+			
+				$("#tagsList").append ("<li>" + liHTML + "</li>");
+			 	$("#tagsList").listview ("refresh");
+			 }
+	  
+	});
+
+	$( document ).on( "pageshow", "#notespage", function( event ) {
+			
+			$("#notesList").html('');
+			var notesdata = window.doszierData;
+			var notesCount = notesdata.notes.length;
+			
+			for (i=0;i<notesCount;i++)
+			{
+				
+				var liHTML = "";
+				liHTML += '<a href=#>';
+				liHTML += '<h3>' +  notesdata.notes[i].notesDesc +'</h3>';
+				liHTML += '<p>' +  notesdata.notes[i].userName +'</p>';
+				liHTML += '</a>';
+			
+				$("#notesList").append ("<li>" + liHTML + "</li>");
+			 	$("#notesList").listview ("refresh");
+			}
+	  
+	});
+
+
+function handleDossier(response)
+{
+	window.doszierData = response;
+	var docCount = response.documents.length;
+	var rem =  docCount % 3;
+	var rows;
+	if (rem > 0)
+	{
+		rows = (docCount - rem) / 3;
+		rows = rows + 1;
+	}
+	else
+	{
+		rows = docCount / 3;
+	}
+	var html = "";
+	for (i=0;i<rows;i++)
+	{
+		html += "<div class=ui-grid-b>";
+		var kStart = (i * 3) + 1;
+		
+		var kEnd = kStart + 3;
+		if (kStart >= docCount)
+			kEnd = docCount + 1;
+//		alert(kStart + '--' + kEnd);
+		for (k=kStart;k<kEnd;k++)
+		{
+			var divClass;
+			if (k % 3 == 1)
+			{
+				divClass = "ui-block-a";
+			}
+			if (k % 3 == 2)
+			{
+				divClass = "ui-block-b";
+			}
+			if (k % 3 == 0)
+			{
+				divClass = "ui-block-c";
+			}
+			
+			var imgIcon = "http://192.168.0.103:8080/isp/downloadFile?documentLink="+response.documents[k-1].icon;
+			html +=   "<div class=" + divClass + "> <img height=80 width=60 src='" + imgIcon + "'/><p class=docNameClass>" + response.documents[k-1].documentName + "</p></img></div>";
+			
+			
+		}
+		html += "</div>";
+	}
+	
+	$("#doszierpage div:jqmData(role=content)").append (html);
+	html = "";
+}
+
+</script>
+
+   <script type="text/javascript">
+
+
+        function PictureSourceType() {};
+        PictureSourceType.PHOTO_LIBRARY = 0;
+        PictureSourceType.CAMERA = 1;
+
+        function getPicture(sourceType)
+        {
+        	
+             var options = { quality: 10 };
+             if (sourceType != undefined) {
+                  options["sourceType"] = sourceType;
+                 // options["destinationType"] = destinationType.DATA_URL;
+             }
+             // if no sourceType specified, the default is CAMERA 
+             navigator.camera.getPicture(getPicture_Success, null, options);
+        };
+
+
+        function getPicture_Success(imageData)
+        {
+                 alert("getpic success "+ imageData);
+                document.getElementById("test_img").src =  imageData;
+        };
+
+        function success(response) {
+            alert("Your photo has been uploaded!");
+          };
+          // callback if the photo fails to upload successfully.
+
+          function fail(error) {
+            alert("if refreshed An error has occurred: Code = " + error.code);
+          };
+
+        function uploadPhoto()
+        {
+            var imageFile = document.getElementById("test_img").src;
+            alert(imageFile);
+            var ft,options;
+
+            options = new FileUploadOptions();
+            options.fileKey = "profile_image";
+              // name of the file:
+              options.fileName = imageFile.substr(imageFile.lastIndexOf('/') + 1);
+              // mime type:
+              options.mimeType = "multipart/form-data";
+              params = {
+                userId: window.g_userId,
+                alf_token: window.g_token,
+                doszierId: window.doszierId
+              };
+              options.params = params;
+
+
+
+            ft = new FileTransfer();
+            ft.upload(imageFile, 'http://192.168.0.103:8080/isp/fileUpload', success, fail, options);
+            alert("Document is added to the dossier. " + imageFile);
+
+        };
+
+       </script>
